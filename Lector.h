@@ -1,10 +1,11 @@
 #ifndef _Lector
 #define _Lector
+#include <fstream>
 using namespace std;
 class Lector{
     public:
-        void lectorDeComas(ifstream& entrada);
-		char* lectorArrobas(ifstream&);
+        void lectorDeComas();
+		char* lectorArrobas();
         Lector(char*);
         void lectorTexto();
 		
