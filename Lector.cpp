@@ -9,7 +9,7 @@ Lector::Lector(char* nombre){
 }
 
 
-char* Lector::lectorArrobas(ifstream& entrada){
+char* Lector::lectorArrobas(){
 	char caracter = ' ';
 	entrada.get(caracter);
 	char * palabra = 0;
@@ -22,12 +22,16 @@ char* Lector::lectorArrobas(ifstream& entrada){
 	return palabra;
 }
 
-void Lector::lectorDeComas(ifstream& entrada){
+void Lector::lectorDeComas(){
 	char coma = ',', caracter = ' ';
 	int cont = 0, indice = 0;
 	char * escritorTweet;
 	char **menciones = new char *[MAX];
+	//entrada.open(*nombre,ios::in);
 	while(cont<14){
+	//if(archivo.fail()){
+		//exit(1);
+	//}
 		entrada.get(caracter);
 		if(caracter == ','){
 			cont++;
@@ -41,7 +45,7 @@ void Lector::lectorDeComas(ifstream& entrada){
 				entrada.get(caracter);
 				if(caracter == '@'){
 					char * mencionRecibida;//revisar
-					mencionRecibida = lectorArrobas(entrada); //revisar
+					mencionRecibida = lectorArrobas(); //revisar
 					if(mencionRecibida){
 						menciones[indice++] = mencionRecibida; 
 					}
@@ -52,7 +56,7 @@ void Lector::lectorDeComas(ifstream& entrada){
 			}
 		}
 		if(cont == 3){
-			escritorTweet = lectorArrobas(entrada);//revisar
+			escritorTweet = lectorArrobas();//revisar
 		}
 		//if que revisa si la lista del escritor del tweet, crea o no crea
 		//despuese se mete a esa lista y suma a los del vector o los crea
@@ -75,7 +79,7 @@ void Lector::lectorDeComas(ifstream& entrada){
 
 void Lector::lectorTexto(){
 	while(entrada.eof()){
-		lectorDeComas(entrada);
+		lectorDeComas();
 	}
 }
 	
