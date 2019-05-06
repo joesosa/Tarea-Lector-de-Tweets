@@ -7,7 +7,8 @@ class Lista {
    private:
       Celda * primera;
 	    Celda * ultima;
-      class Celda{
+      
+			class Celda{
 	     public:
         char * usuario;
   		  int cantidadMenciones; // Nos va a ayudar a llevar un conteo de la cantidad de veces que un usuario ha sido mencionado por otro
@@ -26,7 +27,7 @@ class Lista {
 		Lista & pushBack(char *, int);
     int vacia();
     int compararNombres(char *, char *);
-    int existeEscritor(char *, char *);
+    int existeEscritor(char *);
     int existeMencion(char *, char *);
     Lista & insertar(char *, int);
     Lista & insertarMencion(char *, char *);
