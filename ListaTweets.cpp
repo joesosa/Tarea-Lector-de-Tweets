@@ -78,7 +78,7 @@ int Lista::compararNombres(char * usuarioA, char * usuarioB){
 	int sonIguales = 1;
 	if(sizeof(*usuarioA)/sizeof(usuarioA[0]) != sizeof(*usuarioB)/sizeof(usuarioB[0])){
 		sonIguales = 0;
-		return;
+		return  0;
 	}
 	for(int i = 0; i < sizeof(*usuarioA)/sizeof(usuarioA[0]); ++i){
 		if(*(usuarioA + i) != *(usuarioB + i)){
