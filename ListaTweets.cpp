@@ -38,7 +38,7 @@ Lista::Lista(){
 Lista::~Lista(){
 	Celda * actual = primera;
 	if(actual){
-	actual.liberadorColumnas();
+	actual->liberadorColumnas();
 	actual = actual->siguiente;
 	}
 	if(primera){
@@ -60,7 +60,7 @@ Lista & Lista::pushFront(char * nuevo_Usuario, int cantidadMenciones){
 
 Lista & Lista::pushBack(char * nuevo_Usuario, int cantidadMenciones){
 	Celda * nueva = new Celda(nuevo_Usuario, cantidadMenciones);
-	nueva ->anterior = ultima;
+	nueva->anterior = ultima;
 	if(ultima){
 	   ultima->siguiente = nueva;
 	}
@@ -75,17 +75,17 @@ int Lista::vacia(){
 }
 
 int Lista::compararNombres(char * usuarioA, char * usuarioB){
-						int sonIguales = 1;
-						if(sizeof(*usuarioA)/sizeof(*usuarioA[0]) != sizeof(*usuarioB)/sizeof(*usuarioB[0])){
-							sonIguales = 0;
-							return;
-						}
-			            for(int i = 0; i < sizeof(*usuarioA)/sizeof(*usuarioA[0]); ++i){
-					  		if(*(usuarioA + i) != *(usuarioB + i)){
-								sonIguales = 0;
-							}
-						}
-					  	return sonIguales;
+	int sonIguales = 1;
+	if(sizeof(*usuarioA)/sizeof(usuarioA[0]) != sizeof(*usuarioB)/sizeof(usuarioB[0])){
+		sonIguales = 0;
+		return;
+	}
+	for(int i = 0; i < sizeof(*usuarioA)/sizeof(usuarioA[0]); ++i){
+		if(*(usuarioA + i) != *(usuarioB + i)){
+			sonIguales = 0;
+		}
+	}
+	return sonIguales;
 }
 
 int Lista::existeEscritor(char * usuarioBuscado){
@@ -107,6 +107,7 @@ int Lista::existeEscritor(char * usuarioBuscado){
   }
 
 int Lista::existeMencion(char * escritor, char * mencion){
+	int existe = 0;
 	if(!existeEscritor(escritor)){
   	cerr << "Advertencia: Escritor de tweets enviado no existe en la Lista";
 	}
@@ -122,7 +123,7 @@ int Lista::existeMencion(char * escritor, char * mencion){
 				if(existe){
 					actual->cantidadMenciones+=1;
 				}
-				actual-> actual->abajo;
+				actual = actual->abajo;
 			}
 		}
 	}
@@ -147,7 +148,7 @@ Lista &  Lista::insertarMencion(char * escritor, char * mencion){
 		while(!compararNombres(escritor,actual->usuario)){
 			actual = actual->siguiente;
 		}
-		Celda Nueva = new Celda(mencion, 0);
+		Celda *Nueva = new Celda(mencion, 0);
     if(!actual->abajo){
 			actual->abajo = Nueva;
 		}
@@ -190,7 +191,7 @@ void Lista::ordenarLista(){
 							}
 						}
 						if(celdaPorComparar_02){ // se entra Sii se encontró a alguien con más menciones que la celdaPorComparar_01
-							Celda temporal = (celdaPorComparar_01->usuario, celdaPorComparar_01->cantidadMenciones);
+							Celda *temporal = (celdaPorComparar_01->usuario, celdaPorComparar_01->cantidadMenciones);
 							celdaPorComparar_01->usuario = celdaPorComparar_02->usuario;
 							celdaPorComparar_01->cantidadMenciones = celdaPorComparar_02->cantidadMenciones;
 							celdaPorComparar_02->usuario = temporal->usuario;
