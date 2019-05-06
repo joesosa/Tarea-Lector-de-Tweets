@@ -191,11 +191,12 @@ void Lista::ordenarLista(){
 							}
 						}
 						if(celdaPorComparar_02){ // se entra Sii se encontró a alguien con más menciones que la celdaPorComparar_01
-							Celda *temporal = (celdaPorComparar_01->usuario, celdaPorComparar_01->cantidadMenciones);
+							Celda *temporal = new Celda(celdaPorComparar_01->usuario, celdaPorComparar_01->cantidadMenciones);
 							celdaPorComparar_01->usuario = celdaPorComparar_02->usuario;
 							celdaPorComparar_01->cantidadMenciones = celdaPorComparar_02->cantidadMenciones;
 							celdaPorComparar_02->usuario = temporal->usuario;
 							celdaPorComparar_02->cantidadMenciones = temporal->cantidadMenciones;
+							delete temporal;
 						}
 						indiceColumnas = indiceColumnas->abajo;
 				} //Ciclo que inicia el ordenamiento propiamente
