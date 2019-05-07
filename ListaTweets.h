@@ -18,7 +18,7 @@ class Lista {
   			Celda( char* , int );
         void liberadorColumnas();
   			~Celda();
-  			ostream & imprimir( ostream &);
+  			ostream & imprimir( ostream &, int);
 	     };
 	public:
 		Lista();
@@ -32,6 +32,6 @@ class Lista {
     Lista & insertar(char *, int);
     Lista & insertarMencion(char *, char *);
     void ordenarLista();
-		ostream & imprimir( ostream & );
+		ostream & imprimir( ostream &, char * ,int );
 };
 #endif
