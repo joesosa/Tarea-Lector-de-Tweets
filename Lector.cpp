@@ -1,15 +1,16 @@
 #include "Lector.h"
+#include "ListaTweets.h"
 #include <iostream>
 #include <ctype.h>
 #include <fstream>
 using namespace std;
 #define MAX 30
-Lector::Lector(char* nombre){
-	ifstream entrada(nombre);
+Lector::Lector(ifstream& entrada){
+	lectorTexto(entrada);
 }
 
 
-char* Lector::lectorArrobas(){
+char* Lector::lectorArrobas(ifstream& entrada){
 	char caracter = ' ';
 	entrada.get(caracter);
 	char * palabra = 0;
@@ -22,16 +23,12 @@ char* Lector::lectorArrobas(){
 	return palabra;
 }
 
-void Lector::lectorDeComas(){
+void Lector::lectorDeComas(ifstream& entrada){
 	char coma = ',', caracter = ' ';
 	int cont = 0, indice = 0;
 	char * escritorTweet;
 	char **menciones = new char *[MAX];
-	//entrada.open(*nombre,ios::in);
 	while(cont<14){
-	//if(archivo.fail()){
-		//exit(1);
-	//}
 		entrada.get(caracter);
 		if(caracter == ','){
 			cont++;
@@ -45,7 +42,7 @@ void Lector::lectorDeComas(){
 				entrada.get(caracter);
 				if(caracter == '@'){
 					char * mencionRecibida;//revisar
-					mencionRecibida = lectorArrobas(); //revisar
+					mencionRecibida = lectorArrobas(entrada); //revisar
 					if(mencionRecibida){
 						menciones[indice++] = mencionRecibida; 
 					}
@@ -56,20 +53,21 @@ void Lector::lectorDeComas(){
 			}
 		}
 		if(cont == 3){
-			escritorTweet = lectorArrobas();//revisar
+			escritorTweet = lectorArrobas(entrada);//revisar
 		}
-		//if que revisa si la lista del escritor del tweet, crea o no crea
-		//despuese se mete a esa lista y suma a los del vector o los crea
-		//mismo metodo con los del vector
-		//y se le suma al atributo de escritor
-		/*if(!lista.primera){
-			lista.pushFront(escritorTweet);
-		}
-		else{
-			if(!lista.existe(escritorTweet)){
-				lista.pushBack(escritorTweet);
+		
+		if(lista.existeEscritor(escritorTweet)){ //inserta menciones y escritor
+			for(int i = 0; i<indice;++i){
+				lista.insertarMencion(escritorTweet, menciones[i]);
 			}
-		}*/
+		}
+		else{									
+			lista.insertar(escritorTweet,0);
+			for(int i = 0; i<indice;++i){
+				lista.insertarMencion(escritorTweet, menciones[i]);
+			}
+		}
+		
 		for(int j = 50; j>= 0; --j){
 			delete menciones[j];
 		}
@@ -77,10 +75,11 @@ void Lector::lectorDeComas(){
 	}
 }
 
-void Lector::lectorTexto(){
+void Lector::lectorTexto(ifstream& entrada){
 	while(entrada.eof()){
-		lectorDeComas();
+		lectorDeComas(entrada);
 	}
 }
+
 	
 		
