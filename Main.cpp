@@ -5,14 +5,16 @@
 using namespace std;
 int main(int argc, char * * argv){
   int opcion = 1;
-  Lector lector(argv[1]);
+  Lista lista;
+  ifstream entrada(argv[1]);
+  Lector lector(entrada);
   while(opcion != 2){
     if(opcion == 1){
       int cantMenciones = 0;
       char* nombre  = new char[30];
       cout<<"Digite el usuario por ser consultado: "<<endl; cin>>nombre;
       cout<<"Digite la cantidad de menciones que desea ver de tal usuario... "<<endl; cin>>cantMenciones;
-      //lista.devuelveMenciones(nombre,cantMenciones);
+      lista.imprimir(cout,nombre,cantMenciones);
       cout<<"******************************************"<<endl;
       delete nombre;
       opcion = 3;
