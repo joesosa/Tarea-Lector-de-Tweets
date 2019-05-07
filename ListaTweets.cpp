@@ -22,10 +22,10 @@ Lista::Celda::~Celda(){
 	}
 }
 
-ostream & Lista::Celda::imprimir( ostream & salida){
-	salida << cantidadMenciones << " ";
-	if(siguiente){
-		siguiente->imprimir(salida);
+ostream & Lista::Celda::imprimir(ostream & salida, int cuantasMenciones){
+	if(abajo && cuantasMenciones){
+		salida << "Usuario Mencionado: " << abajo->usuario << " Cantidad de Menciones: " << abajo->cantidadMenciones << endl;
+		abajo->imprimir(salida, cuantasMenciones-1);
 	}
 	return salida;
 }
@@ -205,11 +205,18 @@ void Lista::ordenarLista(){
 	}
 }
 
-ostream & Lista::imprimir( ostream & salida){
-	salida << "{ ";
+ostream & Lista::imprimir( ostream & salida, char * escritor, int cuantasMenciones){
 	if(primera){
-	   primera->imprimir(salida);
+		salida << "Usuario: ";
+		Celda * actual = primera;
+		while(!compararNombres(escritor,actual->usuario)){
+			actual = actual->siguiente;
+			salida << actual->usuario << endl;
+			actual->imprimir(salida, cuantasMenciones);
+		}
 	}
-	salida << " }";
+	else {
+		cerr << "Advertencia: NO se puede imprimir una lista vacia"<<endl;
+	}
 	return salida;
 }
