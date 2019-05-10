@@ -1,6 +1,7 @@
 #ifndef _Lector
 #define _Lector
 #include <fstream>
+#include "ListaTweets.h"
 using namespace std;
 class Lector{
     public:
@@ -8,6 +9,7 @@ class Lector{
 		char* lectorArrobas(ifstream&);
         void lectorTexto(ifstream&);
         void leer();
+        Lista lista;
 		
 		
 	private:	
