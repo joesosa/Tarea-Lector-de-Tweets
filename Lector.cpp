@@ -19,6 +19,7 @@ char* Lector::lectorArrobas(ifstream& entrada){
 	palabra = new char[10];
 	int cont = 0;
     while( ((int)caracter >= 0 && (int)caracter < 10) || isalpha(caracter) || caracter == '_'){
+		cout<<caracter<<endl;
 		palabra[cont] = caracter;
 		cont++;
 		entrada.get(caracter);
@@ -32,8 +33,7 @@ a partir de la primera coma se sabe que es texto y a partir de la tercera se sab
 */
 void Lector::lectorDeComas(ifstream& entrada){
 	char coma = ',', caracter = ' ';
-	int cont = 0, indice = 0, cantMenciones=0;
-	char * escritorTweet = new char[MAX];
+	int cont = 0, indice = 1, cantMenciones=0;
 	char **menciones = new char*[MAX];
 	for(int i = 0; i<MAX;++i){
 		menciones[i]= new char[MAX];
@@ -56,65 +56,41 @@ void Lector::lectorDeComas(ifstream& entrada){
 				}
 				else{ 
 					if(caracter == '@'){
-					menciones[indice] = lectorArrobas(entrada);
-					indice++;
+						menciones[indice] = lectorArrobas(entrada);
+						indice++;
 					}
 				}
 			}
 		}
 		if(cont == 3){
 			cout<<"entre lec comas 3"<<endl;
+			entrada.get(caracter);
+			entrada.get(caracter);
+			menciones[0] = lectorArrobas(entrada);
+			cout<<"el escritor es "<<menciones[0]<<endl;
+			entrada.get(caracter);
+			cont++;
 
-			while(cont == 3){
-				char x[5];
-				entrada.getline(x,5,',');
-
-				//entrada.get(caracter);
-				//cout<<caracter<<endl;
-				cout<<x<<endl;
-				if(caracter == ','){
-					cont++;
-				}
-				else{ 
-					if(caracter == '@'){
-					menciones[indice] = lectorArrobas(entrada);
-					indice++;
-					}
-				}
-			}
-
-			cout << caracter << endl;
-		//	if(caracter == '@'){
-		//		escritorTweet = lectorArrobas(entrada);
-		//		cout<<"entre lec comas 3 if"<<endl;
-		//	}
-		//	cout<<"sali lec comas 3"<<endl;
-		//	entrada.get(caracter);
-		//	cout<<caracter<<endl;
-		//	cont++;
-		//	cout<<"chao "<< cont <<endl;
 		}
 		if(cont == 13){//arreglar
 			cout<<"entre lec comas 13"<<endl;
-			if(caracter == ','){
-				cont++;
-			}
-			cout<<"entre lec comas 13"<<endl;
-			/*if(lista.existeEscritor(escritorTweet)){ //inserta menciones y escritor
-				for(int i = 0; i<indice;++i){
-					lista.insertarMencion(escritorTweet, menciones[i]);
+			if(lista.existeEscritor(menciones[0])){ //inserta menciones y escritor
+				for(int i = 1; i<indice;++i){
+					lista.insertarMencion(menciones[0], menciones[i]);
 				}	
 			}
 			else{									
-				lista.insertar(escritorTweet,0);
-				for(int i = 0; i<indice;++i){
-					lista.insertarMencion(escritorTweet, menciones[i]);
+				lista.insertar(menciones[0],0); //meciones[0] contiene al escritor del tweet
+				for(int i = 1; i<indice;++i){
+					lista.insertarMencion(menciones[0], menciones[i]);
 				}
 			}
+			
 			for(int j = cantMenciones-1; j>= 0; --j){
 				delete menciones[j];
 			}
-			delete[] menciones;*/
+			delete[] menciones;
+			cont++;
 		}
 	}
 }
