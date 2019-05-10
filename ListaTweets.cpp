@@ -283,3 +283,4 @@ ostream & Lista::imprimir( ostream & salida, char * escritor, int cuantasMencion
 	}
 	return salida;
 }
+ 
