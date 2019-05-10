@@ -217,52 +217,40 @@ Lista &  Lista::insertarMencion(char * escritor, char * mencion){
 void Lista::ordenarLista(){
 	Celda * principal = primera; // Principal me ayudará a moverme a través de la lista en forma Horizontal, o sea moviendome a través de los escritores de tweets
 	while (principal) {
-		cout<<"entra al while hay primera \n";
-      cout<<"principal es:"<< principal->usuario<<endl;
-    	if(principal->abajo){ cout<< "Hay alguien abajo de principal \n";
+    	if(principal->abajo){
 				Celda * indiceColumnas = principal->abajo;
 				int cantSubCeldas = 0;
 				while(indiceColumnas){ // Cuenta la cantidad de Celdas hacía abajo de cada escritor
 					++cantSubCeldas;
 					indiceColumnas = indiceColumnas->abajo;
 				}
-				cout << "cantidad de menciones de: "<< principal->usuario<< " "<< cantSubCeldas<<endl;
 				indiceColumnas = principal->abajo; // Reiniciando el puntero a la primera celda de mención
 				int maximo; // Guarda la que se asume como la cant máxima de menciones
         Celda * celdaPorComparar_01; // Será un puntero que deberá apuntar al elemento que inicialmente tendrá las menciones que se asumen como máximo.
 				// Siempre apuntará al elemento "i" inicial de forma fija en cada vuelta en el primer ciclo de adelante
 				Celda * celdaPorComparar_02; // Va a servir para en caso de encontrar una celda con un numero de menciones mayor al supuesto "maximo" apuntarle a esa celda;
-				for(int i = 0; i < cantSubCeldas-1; ++i){ cout<< "entra al for 1 vuelta  "<<i<<endl;
-					celdaPorComparar_01 = indiceColumnas; cout<<"CXComp 1 es : "<< celdaPorComparar_01->usuario<<endl;
+				for(int i = 0; i < cantSubCeldas-1; ++i){
+					celdaPorComparar_01 = indiceColumnas;
 					celdaPorComparar_02 = 0;
-					maximo = celdaPorComparar_01->cantidadMenciones; cout<<"CXComp 1 menciones son : "<< celdaPorComparar_01->cantidadMenciones<<endl;
-						for(int j = i+1; j < cantSubCeldas && indiceColumnas->abajo; ++j){ cout<<"entro al for 2 \n";
+					maximo = celdaPorComparar_01->cantidadMenciones;
+						for(int j = i+1; j < cantSubCeldas && indiceColumnas->abajo; ++j){
 							if(indiceColumnas->abajo->cantidadMenciones > maximo){ // Intercambio a nuevo máximo si alguien tiene más menciones
-								celdaPorComparar_02 = indiceColumnas->abajo;cout<<"CXComp 2 es : "<< celdaPorComparar_02->usuario;
-								maximo = indiceColumnas->abajo->cantidadMenciones; cout<<"CXComp 2 emenciones son : "<< maximo<<endl;
+								celdaPorComparar_02 = indiceColumnas->abajo;
+								maximo = indiceColumnas->abajo->cantidadMenciones;
 							}
 						}
 						if(celdaPorComparar_02){ // se entra Sii se encontró a alguien con más menciones que la celdaPorComparar_01
-							cout<< "hay celda por comparar 2 \n";
 							Celda *temporal = new Celda(celdaPorComparar_01->usuario, celdaPorComparar_01->cantidadMenciones);
-							cout<< " se crea nueva celda \n";
 							celdaPorComparar_01->usuario = celdaPorComparar_02->usuario;
-							cout<<"celdaPorComparar_01->usuario = celdaPorComparar_02->usuario\n";
 							celdaPorComparar_01->cantidadMenciones = celdaPorComparar_02->cantidadMenciones;
-							cout<<"celdaPorComparar_01->cantidadMenciones = celdaPorComparar_02->cantidadMenciones; \n";
 							celdaPorComparar_02->usuario = temporal->usuario;
-							cout<<"celdaPorComparar_02->usuario = temporal->usuario;\n";
 							celdaPorComparar_02->cantidadMenciones = temporal->cantidadMenciones;
-							cout<<"celdaPorComparar_02->cantidadMenciones = temporal->cantidadMenciones;\n";
-							delete temporal; cout <<"borra temporal\n";
+							delete temporal;
 						}
-						indiceColumnas = indiceColumnas->abajo; cout<< "NUevo indice columnas :" <<indiceColumnas->usuario<<endl;
+						indiceColumnas = indiceColumnas->abajo;
 				}
 			}
-			cout<<"sale del for grande";
 			principal = principal->siguiente;
-
-			if(principal){cout<< "principal ahora es "<<principal->usuario<<endl; }
 	}
 }
 
