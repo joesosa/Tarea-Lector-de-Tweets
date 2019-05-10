@@ -25,7 +25,6 @@ class Lista {
 		~Lista();
 		Lista & pushFront(char *, int);
 		Lista & pushBack(char *, int);
-    int vacia();
     int compararNombres(char *, char *);
     int existeEscritor(char *);
     int existeMencion(char *, char *);
