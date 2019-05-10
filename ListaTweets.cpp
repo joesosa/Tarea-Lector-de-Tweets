@@ -24,7 +24,8 @@ Lista::Celda::~Celda(){
 
 ostream & Lista::Celda::imprimir(ostream & salida, int cuantasMenciones){
 	if(abajo && cuantasMenciones){
-		salida << "Usuario Mencionado: " << abajo->usuario << " Cantidad de Menciones: " << abajo->cantidadMenciones << endl;
+		salida << " Usuario Mencionado: " << abajo->usuario<<endl;
+		salida << " Cantidad de Menciones: " << abajo->cantidadMenciones << endl;
 		abajo->imprimir(salida, cuantasMenciones-1);
 	}
 	return salida;
@@ -56,6 +57,7 @@ Lista & Lista::pushFront(char * nuevo_Usuario, int cantidadMenciones){
 		ultima = nueva;
 	}
 	primera = nueva;
+	cout<<" Se inserto "<< primera->usuario<<endl;
 }
 
 Lista & Lista::pushBack(char * nuevo_Usuario, int cantidadMenciones){
@@ -68,22 +70,22 @@ Lista & Lista::pushBack(char * nuevo_Usuario, int cantidadMenciones){
 		primera = nueva;
 	}
 	ultima = nueva;
-}
-
-int Lista::vacia(){
-	return !primera;
+	cout<<" Se inserto "<< ultima->usuario <<endl;
 }
 
 int Lista::compararNombres(char * usuarioA, char * usuarioB){
 	int sonIguales = 1;
-	if(sizeof(*usuarioA)/sizeof(usuarioA[0]) != sizeof(*usuarioB)/sizeof(usuarioB[0])){
-		sonIguales = 0;
-		return  0;
-	}
-	for(int i = 0; i < sizeof(*usuarioA)/sizeof(usuarioA[0]); ++i){
+	int palabrasComparadas = 0;
+	int i = 0;
+	while(!palabrasComparadas){
 		if(*(usuarioA + i) != *(usuarioB + i)){
 			sonIguales = 0;
+			palabrasComparadas = 1;
 		}
+		if(sonIguales && (*(usuarioA + i) =='\0') && (*(usuarioB + i) == '\0') ){
+			palabrasComparadas = 1;
+		}	
+		++i;
 	}
 	return sonIguales;
 }
@@ -122,6 +124,7 @@ int Lista::existeMencion(char * escritor, char * mencion){
       	existe = compararNombres(actual->usuario, mencion);
 				if(existe){
 					actual->cantidadMenciones+=1;
+					cout<< " Se inserto mencion repetida: "<< actual->usuario <<"  Cant. Menciones: "<< actual->cantidadMenciones << endl;
 				}
 				actual = actual->abajo;
 			}
@@ -145,12 +148,18 @@ Lista &  Lista::insertar(char * usuarioBuscado, int cantidadMenciones){
 Lista &  Lista::insertarMencion(char * escritor, char * mencion){
 	if(!existeMencion(escritor,mencion)){
   	Celda * actual = primera;
-		while(!compararNombres(escritor,actual->usuario)){
+	  	int encontroEscritor = 0;
+		Celda * anteriorPrincipal = 0;
+		while(!encontroEscritor){
+			encontroEscritor = compararNombres(escritor,actual->usuario);
+			anteriorPrincipal = actual;
 			actual = actual->siguiente;
 		}
-		Celda *Nueva = new Celda(mencion, 0);
+		actual = anteriorPrincipal;
+		Celda * Nueva = new Celda(mencion, 1);
     if(!actual->abajo){
 			actual->abajo = Nueva;
+			cout<< " Se inserto mencion: "<< actual->abajo->usuario<<endl;
 		}
 	  else{
 			actual = actual->abajo;
@@ -160,6 +169,7 @@ Lista &  Lista::insertarMencion(char * escritor, char * mencion){
 				actual = actual->abajo;
 			}
 			anterior->abajo = Nueva;
+			cout<< " Se inserto mencion: "<< anterior->abajo->usuario<<endl;
 		}
 	}
 	return *this;
@@ -207,16 +217,25 @@ void Lista::ordenarLista(){
 
 ostream & Lista::imprimir( ostream & salida, char * escritor, int cuantasMenciones){
 	if(primera){
-		salida << "Usuario: ";
 		Celda * actual = primera;
-		while(!compararNombres(escritor,actual->usuario)){
+		int escritorEncontrado = 0;
+		Celda * anterior = 0;
+		while(!escritorEncontrado && actual){
+			if(compararNombres(escritor,actual->usuario)){
+				escritorEncontrado = 1;
+				salida << " Usuario Principal: " << actual->usuario<<endl;
+			}	
+			anterior = actual;
 			actual = actual->siguiente;
-			salida << actual->usuario << endl;
+		}
+		actual = anterior;
+		if(escritorEncontrado){	
 			actual->imprimir(salida, cuantasMenciones);
+			cout<< "***************************************************\n";
 		}
 	}
 	else {
-		cerr << "Advertencia: NO se puede imprimir una lista vacia"<<endl;
+		cout << "Advertencia: NO se puede imprimir una lista vacia"<<endl;
 	}
 	return salida;
 }
